@@ -1,12 +1,14 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "bun build ./api/generate-pdf.ts --outdir ./api --target bun",
+  "bunVersion": "1.x",
   "headers": [
     {
-      "source": "/api/(.*)",
+      "source": "/api/(.*).js",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://ravenswoodstudio.xyz"
+          "value": "https://fancy.ravenswoodstudio.xyz"
         },
         {
           "key": "Access-Control-Allow-Methods",
