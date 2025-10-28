@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "dev": "vercel dev"
+    "build": "tsc"
   },
   "dependencies": {
     "botc-character-sheet": "^0.1.0",

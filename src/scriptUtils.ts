@@ -1,12 +1,12 @@
-import type { Script, ScriptCharacter, ScriptMetadata } from "./schema";
+import type { Script, ScriptCharacter, ScriptMetadata } from "./schema.ts";
 import type {
   ResolvedCharacter,
   GroupedCharacters,
   Jinx,
 } from "botc-character-sheet";
-import { ALL_CHARACTERS } from "./data/all_characters";
-import jinxesData from "./data/jinxes.json";
-import { toTitleCase } from "./stringUtils";
+import { ALL_CHARACTERS } from "./data/all_characters.ts";
+import jinxesData from "./data/jinxes.json" with {type: "json"};
+import { toTitleCase } from "./stringUtils.ts";
 
 export interface ParsedScript {
   metadata: ScriptMetadata | null;

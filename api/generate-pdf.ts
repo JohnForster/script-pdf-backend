@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { renderCharacterSheet } from "../src/renderer";
+import { renderCharacterSheet } from "../src/renderer.ts";
 
 // Conditionally import puppeteer based on environment
 const isServerless =

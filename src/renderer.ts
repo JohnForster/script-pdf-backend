@@ -9,7 +9,7 @@ import {
   parseScript,
   groupCharactersByTeam,
   findJinxes,
-} from "./scriptUtils";
+} from "./scriptUtils.ts";
 
 interface RenderOptions {
   color?: string;
