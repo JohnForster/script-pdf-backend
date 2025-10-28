@@ -1,10 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "bun build ./api/generate-pdf.ts --outdir ./api --target bun",
+  "installCommand": "bun install",
+  "buildCommand": "bun build ./functions/generate-pdf.ts --outdir ./api --target bun",
   "bunVersion": "1.x",
+  "functions": {
+    "api/*.js": {
+      "memory": 2048,
+      "maxDuration": 60
+    }
+  },
   "headers": [
     {
-      "source": "/api/(.*).js",
+      "source": "/api/(.*)",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",

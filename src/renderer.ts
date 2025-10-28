@@ -1,7 +1,7 @@
 import { h } from "preact";
 import render from "preact-render-to-string";
 import { CharacterSheet, SheetBack } from "botc-character-sheet";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import { join } from "path";
 
 // Import parsing utilities (we'll need to copy these or create minimal versions)
@@ -88,7 +88,7 @@ function getFontFaces(): string {
     }
     @font-face {
       font-family: 'Goudy Old Style';
-      src: url("${ASSET_BASE}/fonts/GoudyOldStyle/GoudyOldStyleBold.ttf");
+      src: url("${ASSET_BASE}/fonts/GoudyOldStyle/GoudyOldStyle.ttf");
     }
   `;
 }
@@ -219,8 +219,6 @@ export function renderCharacterSheet(
 </body>
 </html>
   `;
-
-  writeFileSync("debug-character-sheet.html", html, "utf-8");
 
   return html;
 }

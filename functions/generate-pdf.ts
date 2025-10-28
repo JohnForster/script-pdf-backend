@@ -1,23 +1,17 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { renderCharacterSheet } from "../src/renderer.ts";
 
+import chromium from "@sparticuz/chromium-min";
+import puppeteer from "puppeteer-core";
+
 // Conditionally import puppeteer based on environment
 const isServerless =
   !!process.env.VERCEL || !!process.env.AWS_LAMBDA_FUNCTION_NAME;
 
-// Dynamic imports to avoid bundling issues
-const puppeteerPromise = isServerless
-  ? import("puppeteer-core")
-  : import("puppeteer");
-
-const chromiumPromise = isServerless
-  ? import("@sparticuz/chromium")
-  : Promise.resolve({ default: null });
-
 // Security configuration
 const MAX_PAYLOAD_SIZE = 500 * 1024; // 500KB
 const MAX_CHARACTERS = 100;
-const ALLOWED_ORIGIN = "https://ravenswoodstudio.xyz";
+const ALLOWED_ORIGIN = "https://fancy.ravenswoodstudio.xyz";
 
 // Optional API key for additional security (set in Vercel environment variables)
 const API_KEY = process.env.PDF_API_KEY;
@@ -37,6 +31,32 @@ interface PDFRequest {
     showBackingSheet?: boolean;
   };
   filename?: string;
+}
+
+async function getBrowser() {
+  if (isServerless) {
+    return puppeteer.launch({
+      args: [...chromium.args, "--hide-scrollbars", "--disable-web-security"],
+      executablePath: await chromium.executablePath(
+        `https://github.com/Sparticuz/chromium/releases/download/v141.0.0/chromium-v141.0.0-pack.x64.tar`
+      ),
+      headless: "shell",
+      ignoreHTTPSErrors: true,
+    });
+  } else {
+    // Local: Full Puppeteer with bundled Chrome
+    const puppeteerModule = await import("puppeteer");
+    const puppeteer = puppeteerModule.default;
+
+    return puppeteer.launch({
+      headless: true,
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-web-security",
+      ],
+    });
+  }
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -110,29 +130,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const html = renderCharacterSheet(script, options || {});
 
     // Load appropriate puppeteer version
-    const puppeteer = (await puppeteerPromise).default;
-    const chromium = isServerless ? (await chromiumPromise).default : null;
+    const executablePath = "/var/task/node_modules/@sparticuz/chromium/bin";
+
+    // Debug: Check filesystem in production
+    if (isServerless) {
+      const fs = await import("fs");
+      console.log("=== Filesystem Debug ===");
+      console.log(
+        "/tmp contents:",
+        fs.existsSync("/tmp") ? fs.readdirSync("/tmp") : "does not exist"
+      );
+      console.log("Current directory:", process.cwd());
+      console.log("Current directory contents:", fs.readdirSync(process.cwd()));
+      console.log("node_modules exists:", fs.existsSync("node_modules"));
+      if (fs.existsSync("node_modules/@sparticuz")) {
+        console.log(
+          "@sparticuz contents:",
+          fs.readdirSync("node_modules/@sparticuz")
+        );
+        if (fs.existsSync("node_modules/@sparticuz/chromium")) {
+          console.log(
+            "chromium package contents:",
+            fs.readdirSync("node_modules/@sparticuz/chromium")
+          );
+        }
+      }
+      if (fs.existsSync(executablePath)) {
+        console.log("Executable Path Exists");
+      }
+    }
 
     // Launch Puppeteer with appropriate settings for environment
-    const browser = await puppeteer.launch(
-      isServerless && chromium
-        ? {
-            // Production: Use @sparticuz/chromium for serverless
-            args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
-            headless: chromium.headless,
-          }
-        : {
-            // Local dev: Use bundled Chrome from puppeteer package
-            headless: true,
-            args: [
-              "--no-sandbox",
-              "--disable-setuid-sandbox",
-              "--disable-web-security",
-            ],
-          }
-    );
+    const browser = await getBrowser();
 
     const page = await browser.newPage();
 
@@ -152,8 +181,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     await page.setContent(html, {
       waitUntil: ["networkidle0", "load"],
     });
-
-    await page.screenshot({ path: "beforePDF.png" });
 
     // Generate PDF
     const pdf = await page.pdf({

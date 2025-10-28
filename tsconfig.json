@@ -23,6 +23,6 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   },
-  "include": ["api", "src", "functions/generate-pdf.ts"],
+  "include": ["api", "src", "api/generate-pdf.ts"],
   "exclude": ["node_modules", "dist"]
 }

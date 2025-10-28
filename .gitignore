@@ -26,3 +26,6 @@ beforePDF.png
 # Logs
 *.log
 npm-debug.log*
+
+# Build outputs
+api/*.js
