@@ -5,7 +5,7 @@
       "name": "script-pdf-maker-backend",
       "dependencies": {
         "@sparticuz/chromium-min": "^141.0.0",
-        "botc-character-sheet": "^0.1.0",
+        "botc-character-sheet": "^0.6.0",
         "botc-script-checker": "^0.0.11",
         "preact": "^10.19.3",
         "preact-render-to-string": "^6.4.0",
@@ -301,7 +301,7 @@
 
     "birpc": ["birpc@2.6.1", "", {}, "sha512-LPnFhlDpdSH6FJhJyn4M0kFO7vtQ5iPw24FnG0y21q09xC7e8+1LeR31S1MAIrDAHp4m7aas4bEkTDTvMAtebQ=="],
 
-    "botc-character-sheet": ["botc-character-sheet@0.1.0", "", { "peerDependencies": { "preact": "^10.19.3" } }, "sha512-EZWYOzoTIzppzvvaALpZ4L2sR/rzLVFcMkQKHR5xH7SbI42iYMPMxbnliD0vamBhKONJPMPrbbEC1XR5agJXqw=="],
+    "botc-character-sheet": ["botc-character-sheet@0.6.0", "", { "peerDependencies": { "preact": "^10.19.3" } }, "sha512-nr22JmRILcqV7JU1jAFr+c0B9JDlwKSIv+CX6zvARCJUWYpCItjfgjmRy6Yg/OQBkGi5WahdvFtwP1L7TMJ2Mw=="],
 
     "botc-script-checker": ["botc-script-checker@0.0.11", "", { "peerDependencies": { "typescript": "^5" } }, "sha512-UB05CcQGj5witWWSyFVapa4tFfgkAXc7t10I/5Hhgo3stwJpdjaf3+/hHp+9ac9JFmKlaGcuHsGzqIFSAmwWjg=="],
 
