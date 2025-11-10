@@ -1,6 +1,10 @@
 import { h } from "preact";
 import render from "preact-render-to-string";
-import { CharacterSheet, SheetBack } from "botc-character-sheet";
+import {
+  CharacterSheet,
+  NightOrderEntry,
+  SheetBack,
+} from "botc-character-sheet";
 import { readFileSync } from "fs";
 import { join } from "path";
 
@@ -95,9 +99,15 @@ function getFontFaces(): string {
   `;
 }
 
+export interface NightOrders {
+  first: NightOrderEntry[];
+  other: NightOrderEntry[];
+}
+
 export function renderCharacterSheet(
   scriptJson: any,
-  options: RenderOptions = {}
+  options: RenderOptions = {},
+  nightOrders: NightOrders
 ): string {
   const {
     color = "#137415",
@@ -146,6 +156,8 @@ export function renderCharacterSheet(
           includeMargins,
           displayNightOrder,
           formatMinorWords,
+          firstNightOrder: nightOrders.first,
+          otherNightOrder: nightOrders.other,
         })
       )
     : "";

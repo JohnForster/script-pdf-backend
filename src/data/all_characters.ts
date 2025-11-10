@@ -1,7 +1,7 @@
-import { ResolvedCharacter } from "../schema.ts";
-
 // Auto-generated from script-checker-lib/src/data/all_characters.ts
 // DO NOT EDIT MANUALLY - use scripts/convert-characters.ts to regenerate
+
+import { ResolvedCharacter } from "botc-character-sheet";
 
 export const ALL_CHARACTERS: Record<string, ResolvedCharacter> = {
   acrobat: {
