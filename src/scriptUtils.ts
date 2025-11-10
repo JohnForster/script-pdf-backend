@@ -1,4 +1,4 @@
-import type { Script, ScriptCharacter, ScriptMetadata } from "./schema.ts";
+
 import type {
   ResolvedCharacter,
   GroupedCharacters,
@@ -7,6 +7,8 @@ import type {
 import { ALL_CHARACTERS } from "./data/all_characters.ts";
 import jinxesData from "./data/jinxes.json" with {type: "json"};
 import { toTitleCase } from "./stringUtils.ts";
+import type { Script, ScriptMetadata, ScriptCharacter, SetOfCharacterIconURLs } from "botc-script-checker";
+
 
 export interface ParsedScript {
   metadata: ScriptMetadata | null;
@@ -66,7 +68,7 @@ function resolveOfficialCharacter(id: string): ResolvedCharacter | null {
 }
 
 function resolveCustomCharacter(char: ScriptCharacter): ResolvedCharacter {
-  let image: string | string[] | undefined;
+  let image: string | SetOfCharacterIconURLs | undefined;
 
   if (char.image) {
     if (typeof char.image === "string") {
