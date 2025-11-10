@@ -22,6 +22,8 @@ interface RenderOptions {
   iconScale?: number;
   compactAppearance?: boolean;
   showBackingSheet?: boolean;
+  formatMinorWords?: boolean;
+  displayNightOrder?: boolean;
 }
 
 // Determine base URL for assets based on environment
@@ -108,6 +110,8 @@ export function renderCharacterSheet(
     iconScale = 1.6,
     compactAppearance = false,
     showBackingSheet = true,
+    formatMinorWords = false,
+    displayNightOrder = false,
   } = options;
 
   // Parse the script
@@ -130,6 +134,8 @@ export function renderCharacterSheet(
       solidTitle,
       iconScale,
       compactAppearance,
+      displayNightOrder,
+      formatMinorWords,
     })
   );
 
