@@ -134,8 +134,6 @@ export function renderCharacterSheet(
       solidTitle,
       iconScale,
       compactAppearance,
-      displayNightOrder,
-      formatMinorWords,
     })
   );
 
@@ -146,6 +144,8 @@ export function renderCharacterSheet(
           title: script.metadata?.name || "Custom Script",
           color,
           includeMargins,
+          displayNightOrder,
+          formatMinorWords,
         })
       )
     : "";
